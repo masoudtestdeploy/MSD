@@ -52,13 +52,13 @@ class MyEventHandler extends \danog\MadelineProto\EventHandler
     const START = "Send me a file URL and I will download it and send it to you!\n\n".
                 "Usage: `https://example.com`\n".
                 "Usage: `https://example.com file name.ext`\n\n".
-                "I can also rename Telegram files, just send me any file and I will rename it!\n\n".
-                "Max 1.5GB, parallel upload and download powered by @kenzomovie.";
+                "هم میتونم فایل دانلود کنم , هم میتونم اسم فایل عوض کنم!\n\n".
+                "آپلود فایل تا حجم 1.5 GB و ساخته شده توسط کانال : @kenzomovie.";
 
     /**
      * @var int|string Username or ID of bot admin
      */
-    const ADMIN = 'danogentili'; // Change this
+    const ADMIN = 'masoudart'; // Change this
 
     /**
      * Get peer(s) where to report errors.
@@ -133,7 +133,14 @@ class MyEventHandler extends \danog\MadelineProto\EventHandler
                 return;
             }
             if ($update['message']['message'] === '/start') {
-                return $this->messages->sendMessage(['peer' => $peerId, 'message' => self::START, 'parse_mode' => 'Markdown', 'reply_to_msg_id' => $messageId]);
+                $bot_API_markup = ['inline_keyboard' => 
+                    [
+                        [
+                            ['text' => 'کانال ما', 'url' => 'https://t.me/kenzomovie']
+                        ]
+                    ]
+                ];
+                return $this->messages->sendMessage(['peer' => $peerId, 'message' => self::START, 'parse_mode' => 'Markdown', 'reply_to_msg_id' => $messageId, 'reply_markup' => $bot_API_markup]);
             }
             if ($update['message']['message'] === '/report' && $peerId === $this->adminId) {
                 \memprof_dump_callgrind($stm = \fopen("php://memory", "w"));
@@ -211,7 +218,7 @@ class MyEventHandler extends \danog\MadelineProto\EventHandler
                             ['_' => 'documentAttributeFilename', 'file_name' => $name]
                         ]
                     ],
-                    'message' => 'Powered by @MadelineProto!',
+                    'message' => 'Powered by @KenzoMovie !',
                     'parse_mode' => 'Markdown'
                 ]
             );
